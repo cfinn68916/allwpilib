@@ -141,11 +141,11 @@ public class TelescopingArmSim {
   }
 
   public boolean hasHitLowerExtensionLimit() {
-    return wouldHitLowerAngleLimit(getExtensionMeters());
+    return wouldHitLowerExtensionLimit(getExtensionMeters());
   }
 
   public boolean hasHitUpperExtensionLimit() {
-    return wouldHitUpperAngleLimit(getExtensionMeters());
+    return wouldHitUpperExtensionLimit(getExtensionMeters());
   }
 
   public double getExtensionMeters() {
@@ -281,6 +281,22 @@ public class TelescopingArmSim {
             m_x,
             m_u,
             dtSeconds);
+    if (wouldHitLowerAngleLimit(updatedX.get(0, 0))) {
+      updatedX.set(0, 0, m_minAngle);
+      updatedX.set(2, 0, 0);
+    }
+    if (wouldHitUpperAngleLimit(updatedX.get(0, 0))) {
+      updatedX.set(0, 0, m_maxAngle);
+      updatedX.set(2, 0, 0);
+    }
+    if (wouldHitLowerExtensionLimit(updatedX.get(1, 0))) {
+      updatedX.set(1, 0, m_minExtension);
+      updatedX.set(3, 0, 0);
+    }
+    if (wouldHitUpperExtensionLimit(updatedX.get(1, 0))) {
+      updatedX.set(1, 0, m_maxExtension);
+      updatedX.set(3, 0, 0);
+    }
     m_x = updatedX;
   }
 }
